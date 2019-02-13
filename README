@@ -1,0 +1,77 @@
+---------------------------         IOCLA          ----------------------------
+
+Tema 2: CryptoFun 
+Nume : Niculescu
+Prenume : Mihai Alexandru
+Grupa : 325CB
+Sistem de operare : Ubuntu 16.04 LTS 64bit 
+Editor : SASM
+Fisiere: tema2.asm README Makefile
+
+-------------------------------------------------------------------------------
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+    Tema implementeaza diverse metode de decriptare in asm x86. Pentru 
+parcurgerea prin "sirul" de stringuri, am implementa functia strlen, adresa 
+urmatorului string calculata astfel adr_str2 = adr_str1 + len_str1 + 1.
+
+TASK 1:
+    Pentru task-ul 1 exita functia: xor_strings, functia primeste adresa celor
+doua stringuri si relizeaza xor caracter cu caracter, rezultatul find stocat in
+primul string, decriptare "in-place".
+
+TASK 2:
+    Algoritmul pentru decripare este: se retine valoare pozitei anterioare 
+nemodificata, si dupa aceia se realizea xor intre pozitia curenta si valoarea
+anterioara, iar rezultatul este suprascrie in stringul primit ca si parametru
+pe pozitia curenta. Pentru prima pozitie se realizea xor cu 0. Functia pentru
+acest task: rolling_xor.
+
+TASK 3:
+    Pentru task 3 se realizea inlocuire caraterelor din hexa cu valorile lor in
+"binar", astfel obtinadu-se un string cu lungime de doua mai mic decat cel 
+original. Exemplu: pentru ab = 171; 171 = 16 * 10 + 11.
+Fiecare dintre cele doua stringi este converti, iar apoi se realizeaza xor 
+intre sirulile rezultate. 
+Functile folosite: hex_to_string; xor_strings; xor_hex_strings .
+
+TASK 4:
+    Pentru task-ul 4 se realizeaza inlocuirea caracterului cu "valuare" conform
+tabelului, iar padding cu 0. Iar apoi se realizea "compresia" din 8 byte in 5 
+byte, originali, iar opreatia se repeta pentru grupuri de cate 8. Cei 5 byte 
+sunt "salvati" in stringul original.
+Pentru acest task foloseste functile: convert_encoding_value (convesia in 
+valoare "caracterului"), decod_five (decodeza 8 byte in 5 byte originali), 
+base32decode.
+
+TASK 5:
+    Pentru acest task se incerca toate cheile pana la 255( = 0xFF). Pentru
+ca o cheie sa fie buna trebuei ca la decripare prin xor sa se obtina 
+sub stringul "fo". Functia check_key verifaca daca o chei indeplineste conditia
+ daca da atunci returneaza 0, altfel 0xFF. Dupa este gasita "cheia potrivita" 
+se realizeaza decriptare "in-place" cu functia xor_on_byte .
+Functia: bruteforce_singlebyte_xor apeleaza check_key pentru fiecare din 
+interval , pana cand este gasiat cheia corecta, iar apoi se face decriptarea 
+"in-place".
+
+TASK 6:
+    Pentru acest task se aloca memorie pe stiva pentru tabela, este intializata
+ si apoi este realizare decriptari in in-place. Functi: init_substitution_table
+, substitution_on_character, break_substitution.
+    Parte dificila a acestui task: gasirea tabelei. Pentru aflare tabelei
+am scris un program in C care determina de cate ori apare un caracter in acel 
+string. Apoi folosind infomatia privind frecventa de apritie a litrelor in 
+limba egleza ( https://en.wikipedia.org/wiki/Letter_frequency ), dar trebia sa 
+determinat mai intai care este . si spatiul. Am presupus ca spatiul este 
+caracterul care apare cel mai mult si . este caracterul care nu apre niciodata.
+Cu acesta presupunere am substituit caraterul in functie de frecventa de 
+aparitie, folosind comanda tr. Primul cu cand determinat a fost text. Si tot 
+permutand litere cu frecvente apropriate intre ele am cauta grupurile care apar
+cel mai des in limba engleza: th , ss ect. 
+PS: Functia init_substitution_table am scris-o folosind 
+printf("    mov     byte [ecx], '%c'\n"    inc     ecx\n", tabla[i]);
+
+
+	
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
